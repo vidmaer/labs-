@@ -1,0 +1,42 @@
+import numpy as np
+
+def solve_cramers_rule(A, b):
+    n = len(A)
+    x = np.zeros(n)
+
+    for i in range(n):
+        det_A = np.linalg.det(A)
+        det_Ai = np.linalg.det(np.delete(np.delete(A, i, 0), i, 1))
+        x[i] = det_Ai / det_A
+
+    return x
+
+def solve_jacobi_method(A, b, tol=1e-8):
+    n = len(A)
+    x = np.zeros(n)
+
+    while True:
+        x_prev = x.copy()
+        for i in range(n):
+            s = 0
+            for j in range(n):
+                if i != j:
+                    s += A[i, j] * x[j]
+            x[i] = (b[i] - s) / A[i, i]
+
+        if np.allclose(x, x_prev, atol=tol):
+            break
+
+    return x
+
+A = np.array([[5, -2, 1], [2, -1, 1], [18, -8, 4]])
+
+b = np.array([2, -1, 0])
+
+x_cramer = solve_cramers_rule(A, b)
+
+print("Решение с использованием правила Крамера:", x_cramer)
+
+x_jacobi = solve_jacobi_method(A, b)
+
+print("Решение с использованием метода Якоби:", x_jacobi)
