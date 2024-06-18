@@ -1,0 +1,22 @@
+import random
+import math
+
+a = random.randint(1, 5)  # коэффициент a
+b = random.randint(-5, 5)  # коэффициент b
+c = random.randint(-5, 5)  # коэффициент c
+point_x = random.uniform(-10, 10)  
+point_y = random.uniform(-10, 10) 
+
+if point_y == a * point_x**2 + b * point_x + c:
+    print("Точка принадлежит параболе.")
+else:
+    print("Точка не принадлежит параболе.")
+
+focus_x = -b / (2 * a)
+focus_y = c - (b**2 - 1) / (4 * a)
+
+print(f"Координаты фокуса параболы: ({focus_x}, {focus_y})")
+
+distance = abs(1 / (4 * a))
+
+print(f"Расстояние от директрисы до фокуса: {distance}")
