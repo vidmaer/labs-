@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+struct Vector {
+    double x, y;
+};
+
+double vectorLength(const Vector& v) {
+    return std::sqrt(v.x * v.x + v.y * v.y);
+}
+
+double dotProduct(const Vector& v1, const Vector& v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+double angleBetweenVectors(const Vector& v1, const Vector& v2) {
+    return std::acos(dotProduct(v1, v2) / (vectorLength(v1) * vectorLength(v2)));
+}
+
+Vector addVectors(const Vector& v1, const Vector& v2) {
+    return {v1.x + v2.x, v1.y + v2.y};
+}
+
+Vector subtractVectors(const Vector& v1, const Vector& v2) {
+    return {v1.x - v2.x, v1.y - v2.y};
+}
+
+bool areParallel(const Vector& v1, const Vector& v2) {
+    return (v1.x * v2.y - v1.y * v2.x) == 0;
+}
+
+int main() {
+    // Генерация случайных координат
+    Vector vec1 = {3.0, 4.0};  // Пример случайной координаты
+    Vector vec2 = {1.0, 2.0};  // Пример случайной координаты
+    Vector vec3 = {5.0, 1.0};  // Пример случайной координаты
+
+    // Вычисление длин векторов
+    double length1 = vectorLength(vec1);
+    double length2 = vectorLength(vec2);
+    double length3 = vectorLength(vec3);
+
+    // Нахождение углов между векторами
+    double angle12 = angleBetweenVectors(vec1, vec2);
+    double angle23 = angleBetweenVectors(vec2, vec3);
+    double angle31 = angleBetweenVectors(vec3, vec1);
+
+    // Нахождение сумм и разностей векторов
+    Vector sum12 = addVectors(vec1, vec2);
+    Vector sum23 = addVectors(vec2, vec3);
+    Vector sum31 = addVectors(vec3, vec1);
+
+    Vector diff12 = subtractVectors(vec1, vec2);
+    Vector diff23 = subtractVectors(vec2, vec3);
+    Vector diff31 = subtractVectors(vec3, vec1);
+
+    // Проверка на параллельность
+    bool parallel12 = areParallel(vec1, vec2);
+    bool parallel23 = areParallel(vec2, vec3);
+    bool parallel31 = areParallel(vec3, vec1);
+
+    // Вывод результатов
+    std::cout << "Длины векторов: " << length1 << ", " << length2 << ", " << length3 << std::endl;
+    std::cout << "Углы между векторами: " << angle12 << ", " << angle23 << ", " << angle31 << std::endl;
+    std::cout << "Суммы векторов: (" << sum12.x << ", " << sum12.y << "), (" << sum23.x << ", " << sum23.y << "), (" << sum31.x << ", " << sum31.y << ")" << std::endl;
+    std::cout << "Разности векторов: (" << diff12.x << ", " << diff12.y << "), (" << diff23.x << ", " << diff23.y << "), (" << diff31.x << ", " << diff31.y << ")" << std::endl;
+    std::cout << "Параллельность: " << parallel12 << ", " << parallel23 << ", " << parallel31 << std::endl;
+
+    return 0;
+}
