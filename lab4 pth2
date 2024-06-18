@@ -1,0 +1,27 @@
+import numpy as np
+
+def seidel(A, b, tol=0.01):
+    n = len(A)
+    x = np.zeros(n)
+
+    while True:
+        x_prev = x.copy()
+        for i in range(n):
+            sum_ = 0
+            for j in range(n):
+                if i != j:
+                    sum_ += A[i, j] * x_prev[j]
+            x[i] = (b[i] - sum_) / A[i, i]
+
+        if np.allclose(x, x_prev, atol=tol):
+            break
+
+    return x
+
+A = np.array([[-22, -2, -6, 6], [3, -17, -3, 7], [2, 6, -17, 5], [-1, -8, 8, 23]])
+
+b = np.array([96, -26, 35, -234])
+
+x_seidel = seidel(A, b)
+
+print("Решение с использованием метода Зайделя:", x_seidel)
