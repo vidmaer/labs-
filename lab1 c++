@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cmath>
+
+double f(double x1, double x2) {
+    return x1*x1 + 3*x2*x2 + cos(x1 + x2);
+}
+
+void coordinateDescent() {
+    double alpha = 0.01; 
+    double precision = 0.0001; 
+    int maxIterations = 1000; 
+
+    double x1 = 0.0;
+    double x2 = 0.0; 
+
+    for (int i = 0; i < maxIterations; ++i) {
+        
+        double df_dx1 = 2*x1 - sin(x1 + x2); /
+        x1 -= alpha * df_dx1;
+ 
+        double df_dx2 = 6*x2 - sin(x1 + x2); 
+        x2 -= alpha * df_dx2;
+
+        if (sqrt(df_dx1*df_dx1 + df_dx2*df_dx2) < precision) {
+            break;
+        }
+    }
+
+    std::cout << "Оптимальное значение x1: " << x1 << std::endl;
+    std::cout << "Оптимальное значение x2: " << x2 << std::endl;
+    std::cout << "Значение функции в оптимальной точке: " << f(x1, x2) << std::endl;
+}
+
+int main() {
+    coordinateDescent();
+    return 0;
+}
