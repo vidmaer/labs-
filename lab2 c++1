@@ -1,0 +1,83 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+struct Vector3D {
+    double x, y, z;
+};
+
+double vectorLength(const Vector3D& v) {
+    return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+double dotProduct(const Vector3D& v1, const Vector3D& v2) {
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+double angleBetweenVectors(const Vector3D& v1, const Vector3D& v2) {
+    return std::acos(dotProduct(v1, v2) / (vectorLength(v1) * vectorLength(v2)));
+}
+
+Vector3D addVectors(const Vector3D& v1, const Vector3D& v2) {
+    return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
+}
+
+Vector3D subtractVectors(const Vector3D& v1, const Vector3D& v2) {
+    return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
+}
+
+bool areParallel(const Vector3D& v1, const Vector3D& v2) {
+    return (v1.x / v2.x == v1.y / v2.y && v1.y / v2.y == v1.z / v2.z);
+}
+
+Vector3D crossProduct(const Vector3D& v1, const Vector3D& v2) {
+    return {v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x};
+}
+
+double scalarTripleProduct(const Vector3D& v1, const Vector3D& v2, const Vector3D& v3) {
+    return dotProduct(v1, crossProduct(v2, v3));
+}
+
+int main() {
+    // Генерация случайных координат
+    Vector3D vec1 = {3.0, 4.0, 5.0};  // Пример случайной координаты
+    Vector3D vec2 = {1.0, 2.0, 3.0};  // Пример случайной координаты
+    Vector3D vec3 = {5.0, 1.0, 2.0};  // Пример случайной координаты
+
+    // Вычисление длин векторов
+    double length1 = vectorLength(vec1);
+    double length2 = vectorLength(vec2);
+    double length3 = vectorLength(vec3);
+
+    // Нахождение углов между векторами
+    double angle12 = angleBetweenVectors(vec1, vec2);
+    double angle23 = angleBetweenVectors(vec2, vec3);
+    double angle31 = angleBetweenVectors(vec3, vec1);
+
+    // Нахождение сумм и разностей векторов
+    Vector3D sum12 = addVectors(vec1, vec2);
+    Vector3D sum23 = addVectors(vec2, vec3);
+    Vector3D sum31 = addVectors(vec3, vec1);
+
+    Vector3D diff12 = subtractVectors(vec1, vec2);
+    Vector3D diff23 = subtractVectors(vec2, vec3);
+    Vector3D diff31 = subtractVectors(vec3, vec1);
+
+    // Проверка на параллельность
+    bool parallel12 = areParallel(vec1, vec2);
+    bool parallel23 = areParallel(vec2, vec3);
+    bool parallel31 = areParallel(vec3, vec1);
+
+    // Нахождение смешанного произведения
+    double scalarTriple = scalarTripleProduct(vec1, vec2, vec3);
+
+    // Вывод результатов
+    std::cout << "Длины векторов: " << length1 << ", " << length2 << ", " << length3 << std::endl;
+    std::cout << "Углы между векторами: " << angle12 << ", " << angle23 << ", " << angle31 << std::endl;
+    std::cout << "Суммы векторов: (" << sum12.x << ", " << sum12.y << ", " << sum12.z << "), (" << sum23.x << ", " << sum23.y << ", " << sum23.z << "), (" << sum31.x << ", " << sum31.y << ", " << sum31.z << ")" << std::endl;
+    std::cout << "Разности векторов: (" << diff12.x << ", " << diff12.y << ", " << diff12.z << "), (" << diff23.x << ", " << diff23.y << ", " << diff23.z << "), (" << diff31.x << ", " << diff31.y << ", " << diff31.z << ")" << std::endl;
+    std::cout << "Параллельность: " << parallel12 << ", " << parallel23 << ", " << parallel31 << std::endl;
+    std::cout << "Смешанное произведение: " << scalarTriple << std::endl;
+
+    return 0;
+}
